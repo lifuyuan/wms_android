@@ -11,22 +11,22 @@ import android.widget.Toast;
 import com.zxing.activity.CaptureActivity;
 
 
-public class MainActivity extends Activity implements OnClickListener {
+public class MainActivity extends Activity{
 
     private Button btnScan;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         btnScan = (Button)findViewById(R.id.btnScan);
-        btnScan.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        Intent intent = new Intent(this, CaptureActivity.class);
-        startActivityForResult(intent, 0);
+        btnScan.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+                intent.putExtra("scanType", "normal_inbound");
+                startActivityForResult(intent, 0);
+            }
+        });
     }
 
     @Override

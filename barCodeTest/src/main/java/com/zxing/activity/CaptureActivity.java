@@ -1,6 +1,8 @@
 package com.zxing.activity;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 import android.app.Activity;
@@ -23,6 +25,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.ericssonlabs.R;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
@@ -47,6 +56,7 @@ public class CaptureActivity extends Activity implements Callback {
 	private static final float BEEP_VOLUME = 0.10f;
 	private boolean vibrate;
 	private Button cancelScanButton;
+	private String scanType;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -55,6 +65,8 @@ public class CaptureActivity extends Activity implements Callback {
 		setContentView(R.layout.camera);
 		//ViewUtil.addTopView(getApplicationContext(), this, R.string.scan_card);
 		CameraManager.init(getApplication());
+		Intent i = getIntent();
+		scanType = i.getStringExtra("scanType");
 		viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
 		cancelScanButton = (Button) this.findViewById(R.id.btn_cancel_scan);
 		hasSurface = false;
@@ -129,7 +141,8 @@ public class CaptureActivity extends Activity implements Callback {
 			resultIntent.putExtras(bundle);
 			this.setResult(RESULT_OK, resultIntent);
 		}
-		new AlertDialog.Builder(this).setTitle("Scan Result").setMessage(resultString)
+
+		new AlertDialog.Builder(this).setTitle("Scan Result").setMessage(scanType+"::"+resultString)
 			.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
