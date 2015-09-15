@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Vector;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
@@ -83,7 +85,7 @@ public class CaptureActivity extends Activity implements Callback {
 		
 		//quit the scan view
 		cancelScanButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				CaptureActivity.this.finish();
@@ -127,7 +129,20 @@ public class CaptureActivity extends Activity implements Callback {
 			resultIntent.putExtras(bundle);
 			this.setResult(RESULT_OK, resultIntent);
 		}
-		CaptureActivity.this.finish();
+		new AlertDialog.Builder(this).setTitle("Scan Result").setMessage(resultString)
+			.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					handler.restartPreviewAndDecode();
+				}
+			})
+			.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					CaptureActivity.this.finish();
+				}
+			}).show();
+		//CaptureActivity.this.finish();
 	}
 	
 	private void initCamera(SurfaceHolder surfaceHolder) {
