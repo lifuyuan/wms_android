@@ -6,9 +6,9 @@
                 tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/btnScan"
+        android:id="@+id/btnInbound"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="扫码"/>
+        android:text="@string/commodity_inbound"/>
 
 </LinearLayout>

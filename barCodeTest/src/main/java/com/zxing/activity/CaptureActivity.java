@@ -2,7 +2,9 @@ package com.zxing.activity;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Vector;
 
 import android.app.Activity;
@@ -35,6 +37,7 @@ import com.android.volley.toolbox.Volley;
 import com.ericssonlabs.R;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
+import com.utils.SerializableMap;
 import com.zxing.camera.CameraManager;
 import com.zxing.decoding.CaptureActivityHandler;
 import com.zxing.decoding.InactivityTimer;
@@ -57,6 +60,7 @@ public class CaptureActivity extends Activity implements Callback {
 	private boolean vibrate;
 	private Button cancelScanButton;
 	private String scanType;
+	private HashMap<String, Object> scanResult = new HashMap();
 
 	/** Called when the activity is first created. */
 	@Override
@@ -135,9 +139,24 @@ public class CaptureActivity extends Activity implements Callback {
 			Toast.makeText(CaptureActivity.this, "Scan failed!", Toast.LENGTH_SHORT).show();
 		}else {
 //			System.out.println("Result:"+resultString);
+
+			int barcode_num = 1;
+			Iterator iter = scanResult.entrySet().iterator();
+			while(iter.hasNext()) {
+				Map.Entry entry = (Map.Entry)iter.next();
+				String key = (String)entry.getKey();
+				Integer value = (Integer)entry.getValue();
+				if (resultString.equals(key)){
+					barcode_num = value + 1;
+				}
+			}
+			scanResult.put(resultString, barcode_num);
+
 			Intent resultIntent = new Intent();
 			Bundle bundle = new Bundle();
-			bundle.putString("result", resultString);
+			SerializableMap resultmap = new SerializableMap();
+			resultmap.setMap(scanResult);
+			bundle.putSerializable("result", resultmap);
 			resultIntent.putExtras(bundle);
 			this.setResult(RESULT_OK, resultIntent);
 		}
