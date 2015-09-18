@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.zxing.common.StringUtils;
 import com.quaie.wms.Config;
 import com.quaie.wms.R;
 import com.quaie.wms.utils.Logger;
@@ -135,7 +137,9 @@ public class InboundActivity   extends Activity {
                         HashMap<String, String> map = new HashMap<String, String>();
                         map.put("token", Config.getCachedToken(InboundActivity.this));
                         map.put("merchantId", select_mer);
-                        map.put("inboundNo", inbound_no);
+                        if (!TextUtils.isEmpty(inbound_no)) {
+                            map.put("inboundNo", inbound_no);
+                        }
                         map.put("inboundBarcode", result_array.toString());
                         return map;
                     }
