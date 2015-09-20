@@ -21,4 +21,10 @@
     <string name="scan_result_barcode">Scaned Commodity Number:</string>
     <string name="commodity_mount">Commodity Mound</string>
     <string name="mount_submit">Submit To Server</string>
+    <string name="scanWave">Scan Wave/Order No.</string>
+    <string name="scan_result_wave">Scanned Wave/Order No.</string>
+    <string name="commodity_pickup">Commodity Pickup</string>
+    <string name="scanOrder">Scan Order No.</string>
+    <string name="scan_result_order">Scanned Order No.</string>
+    <string name="commodity_outbound">Order Pack</string>
 </resources>

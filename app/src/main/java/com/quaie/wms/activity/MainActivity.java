@@ -1,7 +1,9 @@
 package com.quaie.wms.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,7 +20,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.quaie.wms.Config;
 import com.quaie.wms.R;
+import com.quaie.wms.application.MyApplication;
 import com.quaie.wms.utils.Logger;
+import com.quaie.wms.utils.TitleBuilder;
 import com.quaie.wms.utils.ToastUtils;
 import com.zxing.activity.CaptureActivity;
 
@@ -37,11 +41,14 @@ public class MainActivity extends Activity{
     private String[] inbound_batch_nos;
     private Button btnInbound;
     private Button btnMound;
+    private Button btnPickup;
+    private Button btnOutbound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        new TitleBuilder(MainActivity.this).setTitleText("WMS");
         final ProgressDialog pd = ProgressDialog.show(MainActivity.this, "Connecting", "Connecting to server,please wait");
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         String url1 = "http://www.24upost.com:5001/wms/android/merchants?token=" + Config.getCachedToken(this);
@@ -165,6 +172,47 @@ public class MainActivity extends Activity{
                 startActivity(intent);
             }
         });
+
+        btnPickup = (Button)findViewById(R.id.btnPickup);
+        btnPickup.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PickupActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnOutbound = (Button)findViewById(R.id.btnOutbound);
+        btnOutbound.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, OutboundActivity.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        //MyApplication.getInstance().exit();
+        new AlertDialog.Builder(this).setTitle("确认退出吗？")
+                //.setIcon(android.R.drawable.ic_dialog_info)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 点击“确认”后的操作
+                        MainActivity.super.onBackPressed();
+                        MyApplication.getInstance().exit();
+                    }
+                })
+                .setNegativeButton("返回", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 点击“返回”后的操作,这里不设置没有任何操作
+                    }
+                }).show();
     }
 
 }

@@ -20,6 +20,8 @@
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.InboundActivity" />
         <activity android:name=".activity.MountActivity" />
+        <activity android:name=".activity.PickupActivity" />
+        <activity android:name=".activity.OutboundActivity" />
     </application>
 
 </manifest>

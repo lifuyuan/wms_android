@@ -5,6 +5,8 @@
                 android:orientation="vertical"
                 tools:context=".MainActivity">
 
+    <include layout="@layout/include_titlebar"/>
+
     <Button
         android:id="@+id/btnInbound"
         android:layout_width="match_parent"
@@ -16,5 +18,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/commodity_mount"/>
+
+    <Button
+        android:id="@+id/btnPickup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/commodity_pickup"/>
+
+    <Button
+        android:id="@+id/btnOutbound"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/commodity_outbound"/>
 
 </LinearLayout>
