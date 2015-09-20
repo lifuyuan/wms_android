@@ -34,7 +34,9 @@ public class MainActivity extends Activity{
     private String[] mer_name;
     private String[] mer_id;
     private String[] inbound_nos;
+    private String[] inbound_batch_nos;
     private Button btnInbound;
+    private Button btnMound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +98,7 @@ public class MainActivity extends Activity{
                             }
                             pd.dismiss();
                         }catch (JSONException e) {
-                            ToastUtils.showToast(MainActivity.this, "Obtain Merchant Failed!", Toast.LENGTH_SHORT);
+                            ToastUtils.showToast(MainActivity.this, "Obtain Inbound No. Failed!", Toast.LENGTH_SHORT);
                             e.printStackTrace();
                         }
                         ToastUtils.showToast(MainActivity.this, result, Toast.LENGTH_LONG);
@@ -110,6 +112,38 @@ public class MainActivity extends Activity{
             }
         });
         queue.add(request2);
+
+        String url3 = "http://www.24upost.com:5001/wms/android/inbound_batch_nos?token=" + Config.getCachedToken(this);
+        StringRequest request3 = new StringRequest(Request.Method.GET, url3,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String result) {
+                        Logger.show(TAG, result);
+                        try {
+                            JSONObject obj = new JSONObject(result);
+                            JSONArray inboundNo_array = obj.getJSONArray("inbound_no");
+                            inbound_batch_nos = new String[inboundNo_array.length()];
+                            for(int i = 0; i < inboundNo_array.length(); i++) {//遍历JSONArray
+                                String inbound_no = (String)inboundNo_array.get(i);
+                                inbound_batch_nos[i] = inbound_no;
+                                Logger.show(TAG, inbound_no);
+                            }
+                            pd.dismiss();
+                        }catch (JSONException e) {
+                            ToastUtils.showToast(MainActivity.this, "Obtain Inbound Batch No. Failed!", Toast.LENGTH_SHORT);
+                            e.printStackTrace();
+                        }
+                        ToastUtils.showToast(MainActivity.this, result, Toast.LENGTH_LONG);
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ToastUtils.showToast(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG);
+                pd.dismiss();
+            }
+        });
+        queue.add(request3);
         queue.start();
         btnInbound = (Button)findViewById(R.id.btnInbound);
         btnInbound.setOnClickListener(new OnClickListener() {
@@ -119,6 +153,15 @@ public class MainActivity extends Activity{
                 intent.putExtra("mer_name", mer_name);
                 intent.putExtra("mer_id", mer_id);
                 intent.putExtra("inbound_nos", inbound_nos);
+                startActivity(intent);
+            }
+        });
+        btnMound = (Button)findViewById(R.id.btnMount);
+        btnMound.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MountActivity.class);
+                intent.putExtra("inbound_batch_nos", inbound_batch_nos);
                 startActivity(intent);
             }
         });

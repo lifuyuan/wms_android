@@ -62,7 +62,7 @@ public class InboundActivity   extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inbound);
         new TitleBuilder(InboundActivity.this).setTitleText("Inbound");
-        resultTextView = (TextView) this.findViewById(com.ericssonlabs.R.id.tv_scan_result);
+        resultTextView = (TextView) this.findViewById(R.id.tv_scan_result);
         Intent i = getIntent();
         mer_name = (String[])i.getCharSequenceArrayExtra("mer_name");
         mer_id = (String[])i.getCharSequenceArrayExtra("mer_id");
@@ -105,6 +105,8 @@ public class InboundActivity   extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(InboundActivity.this, CaptureActivity.class);
+                intent.putExtra("isContinue", "yes");
+                intent.putExtra("scanType", "inbound");
                 startActivityForResult(intent, 0);
             }
         });
@@ -123,7 +125,7 @@ public class InboundActivity   extends Activity {
                             public void onResponse(String result) {
                                 pd.dismiss();
                                 ToastUtils.showToast(InboundActivity.this, "Successful", Toast.LENGTH_SHORT);
-
+                                InboundActivity.this.finish();
                             }
                         }, new Response.ErrorListener() {
                     @Override

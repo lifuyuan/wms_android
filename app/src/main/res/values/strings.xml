@@ -9,9 +9,16 @@
     <string name="password">Please input your password</string>
     <string name="signin">Sign In</string>
     <string name="select_merchant">Select Merchant</string>
-    <string name="select_inbound_no">Select Inbound No</string>
+    <string name="select_inbound_no">Select Inbound No.</string>
     <string name="scan">Scan Commodity</string>
     <string name="commodity_inbound">Commodity Inbound</string>
-    <string name="scan_result">Scan Commodity Number: </string>
+    <string name="scan_result">Scan Commodity Barcode: </string>
     <string name="scan_submit">Submit to Server</string>
+    <string name="select_inbound_batch_no">Select Real Inbound No.</string>
+    <string name="scanShelf">Scan Shelf Barcode:</string>
+    <string name="scanBarcode">Scan Commodity Barcode:</string>
+    <string name="scan_result_shelf">Your Shelf is: </string>
+    <string name="scan_result_barcode">Scaned Commodity Number:</string>
+    <string name="commodity_mount">Commodity Mound</string>
+    <string name="mount_submit">Submit To Server</string>
 </resources>

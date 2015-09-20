@@ -59,6 +59,7 @@ public class CaptureActivity extends Activity implements Callback {
 	private static final float BEEP_VOLUME = 0.10f;
 	private boolean vibrate;
 	private Button cancelScanButton;
+	private String isContinue;
 	private String scanType;
 	private HashMap<String, Object> scanResult = new HashMap();
 
@@ -70,6 +71,7 @@ public class CaptureActivity extends Activity implements Callback {
 		//ViewUtil.addTopView(getApplicationContext(), this, R.string.scan_card);
 		CameraManager.init(getApplication());
 		Intent i = getIntent();
+		isContinue = i.getStringExtra("isContinue");
 		scanType = i.getStringExtra("scanType");
 		viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
 		cancelScanButton = (Button) this.findViewById(R.id.btn_cancel_scan);
@@ -157,24 +159,28 @@ public class CaptureActivity extends Activity implements Callback {
 			SerializableMap resultmap = new SerializableMap();
 			resultmap.setMap(scanResult);
 			bundle.putSerializable("result", resultmap);
+			bundle.putString("scanType", scanType);
 			resultIntent.putExtras(bundle);
 			this.setResult(RESULT_OK, resultIntent);
 		}
-
-		new AlertDialog.Builder(this).setTitle("Scan Result").setMessage(scanType+"::"+resultString)
-			.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					handler.restartPreviewAndDecode();
-				}
-			})
-			.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					CaptureActivity.this.finish();
-				}
-			}).show();
-		//CaptureActivity.this.finish();
+		if(isContinue.equals("yes")) {
+			new AlertDialog.Builder(this).setTitle("Scan Result").setMessage(resultString)
+				.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						handler.restartPreviewAndDecode();
+					}
+				})
+				.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						CaptureActivity.this.finish();
+					}
+				}).show();
+		}
+		else {
+			CaptureActivity.this.finish();
+		}
 	}
 	
 	private void initCamera(SurfaceHolder surfaceHolder) {

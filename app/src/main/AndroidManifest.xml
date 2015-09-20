@@ -19,6 +19,7 @@
         </activity>
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.InboundActivity" />
+        <activity android:name=".activity.MountActivity" />
     </application>
 
 </manifest>
