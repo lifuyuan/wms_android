@@ -11,7 +11,8 @@
         style="@style/TextViewTitle"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:maxWidth="224dp" />
+        android:maxWidth="224dp"
+        android:textStyle="bold"/>
     <ImageView
         android:id="@+id/titlebar_iv_right"
         android:layout_width="48dp"

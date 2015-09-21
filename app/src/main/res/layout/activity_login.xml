@@ -27,7 +27,7 @@
                 android:layout_marginLeft="10dp"
                 android:textColor="#2c3e50"
                 android:text="@string/name"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:layout_gravity="center"
                 android:autoText="false"
                 android:focusable="false"
@@ -35,7 +35,7 @@
                 android:width="80dp"
                 android:maxWidth="80dp"
                 android:gravity="center_vertical|right"
-                />
+                android:textStyle="bold"/>
             <EditText
                 android:id="@+id/username"
                 android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                 android:textColor="@color/bg_gray_dark"
                 android:textColorHint="@color/bg_gray_dark"
                 style="@style/my_edittext_style"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:gravity="center_vertical"
                 android:inputType="text"/>
         </LinearLayout>
@@ -72,10 +72,11 @@
                 android:text="@string/passwd_login"
                 android:textColor="#2c3e50"
                 android:layout_marginLeft="10dp"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:gravity="center_vertical|right"
                 android:width="80dp"
-                android:maxWidth="80dp"/>
+                android:maxWidth="80dp"
+                android:textStyle="bold"/>
             <EditText
                 android:id="@+id/password"
                 android:layout_height="wrap_content"
@@ -87,8 +88,7 @@
                 android:textColor="@color/bg_gray_dark"
                 android:textColorHint="@color/bg_gray_dark"
                 style="@style/my_edittext_style"
-                android:textSize="14sp"
-                />
+                android:textSize="16sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -109,17 +109,17 @@
             android:minHeight="45dp">
             <Button
                 android:id="@+id/btnLogin"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:background="#7f8c8d"
                 android:textColor="@color/txt_white"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 android:text="@string/signin"
                 android:singleLine="false"
                 android:height="45dp"
-                android:width="320dp"/>
+                android:textStyle="bold"/>
         </LinearLayout>
     </LinearLayout>
 

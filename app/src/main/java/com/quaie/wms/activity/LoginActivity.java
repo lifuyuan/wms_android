@@ -40,7 +40,7 @@ public class LoginActivity  extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        new TitleBuilder(LoginActivity.this).setTitleText("Sign In");
+        new TitleBuilder(LoginActivity.this).setTitleText("WMS");
         username = (EditText)findViewById(R.id.username);
         password = (EditText)findViewById(R.id.password);
 
@@ -79,7 +79,7 @@ public class LoginActivity  extends Activity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             pd.dismiss();
-                            ToastUtils.showToast(LoginActivity.this, error.networkResponse.data.toString(), Toast.LENGTH_SHORT);
+                            ToastUtils.showToast(LoginActivity.this, "Please check your username or password", Toast.LENGTH_SHORT);
                         }
                     }){
                     @Override
