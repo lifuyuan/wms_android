@@ -68,13 +68,77 @@ public class MainActivity extends Activity implements UserItemAdapter.Callback{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final ProgressDialog pd = ProgressDialog.show(MainActivity.this, "Connecting", "Connecting to server,please wait");
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        final RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+        String url3 = "http://www.24upost.com:5001/wms/android/inbound_batch_nos?token=" + Config.getCachedToken(this);
+        final StringRequest request3 = new StringRequest(Request.Method.GET, url3,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String result) {
+                        Logger.show(TAG, result);
+                        Logger.show(TAG, "request3");
+                        try {
+                            JSONObject obj = new JSONObject(result);
+                            JSONArray inboundNo_array = obj.getJSONArray("inbound_no");
+                            inbound_batch_nos = new String[inboundNo_array.length()];
+                            for(int i = 0; i < inboundNo_array.length(); i++) {//遍历JSONArray
+                                String inbound_no = (String)inboundNo_array.get(i);
+                                inbound_batch_nos[i] = inbound_no;
+                                Logger.show(TAG, inbound_no);
+                            }
+                            pd.dismiss();
+                        }catch (JSONException e) {
+                            ToastUtils.showToast(MainActivity.this, "Obtain Inbound Batch No. Failed!", Toast.LENGTH_SHORT);
+                            e.printStackTrace();
+                        }
+                        //ToastUtils.showToast(MainActivity.this, result, Toast.LENGTH_LONG);
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ToastUtils.showToast(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG);
+                pd.dismiss();
+            }
+        });
+        String url2 = "http://www.24upost.com:5001/wms/android/inbound_nos?token=" + Config.getCachedToken(this);
+        final StringRequest request2 = new StringRequest(Request.Method.GET, url2,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String result) {
+                        queue.add(request3);
+                        Logger.show(TAG, result);
+                        Logger.show(TAG, "request2");
+                        try {
+                            JSONObject obj = new JSONObject(result);
+                            JSONArray inboundNo_array = obj.getJSONArray("inbound_no");
+                            inbound_nos = new String[inboundNo_array.length()];
+                            for(int i = 0; i < inboundNo_array.length(); i++) {//遍历JSONArray
+                                String inbound_no = (String)inboundNo_array.get(i);
+                                inbound_nos[i] = inbound_no;
+                                Logger.show(TAG, inbound_no);
+                            }
+                        }catch (JSONException e) {
+                            ToastUtils.showToast(MainActivity.this, "Obtain Inbound No. Failed!", Toast.LENGTH_SHORT);
+                            e.printStackTrace();
+                        }
+                        //ToastUtils.showToast(MainActivity.this, result, Toast.LENGTH_LONG);
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ToastUtils.showToast(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG);
+            }
+        });
         String url1 = "http://www.24upost.com:5001/wms/android/merchants?token=" + Config.getCachedToken(this);
         StringRequest request1 = new StringRequest(Request.Method.GET, url1,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String result) {
+                        queue.add(request2);
                         Logger.show(TAG, result);
+                        Logger.show(TAG, "request1");
                         try {
                             JSONObject obj = new JSONObject(result);
                             Logger.show(TAG, obj.getJSONArray("merchant").toString());
@@ -105,70 +169,6 @@ public class MainActivity extends Activity implements UserItemAdapter.Callback{
         });
         queue.add(request1);
 
-
-        String url2 = "http://www.24upost.com:5001/wms/android/inbound_nos?token=" + Config.getCachedToken(this);
-        StringRequest request2 = new StringRequest(Request.Method.GET, url2,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String result) {
-                        Logger.show(TAG, result);
-                        try {
-                            JSONObject obj = new JSONObject(result);
-                            JSONArray inboundNo_array = obj.getJSONArray("inbound_no");
-                            inbound_nos = new String[inboundNo_array.length()];
-                            for(int i = 0; i < inboundNo_array.length(); i++) {//遍历JSONArray
-                                String inbound_no = (String)inboundNo_array.get(i);
-                                inbound_nos[i] = inbound_no;
-                                Logger.show(TAG, inbound_no);
-                            }
-                            pd.dismiss();
-                        }catch (JSONException e) {
-                            ToastUtils.showToast(MainActivity.this, "Obtain Inbound No. Failed!", Toast.LENGTH_SHORT);
-                            e.printStackTrace();
-                        }
-                        ToastUtils.showToast(MainActivity.this, result, Toast.LENGTH_LONG);
-                    }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                ToastUtils.showToast(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG);
-                pd.dismiss();
-            }
-        });
-        queue.add(request2);
-
-        String url3 = "http://www.24upost.com:5001/wms/android/inbound_batch_nos?token=" + Config.getCachedToken(this);
-        StringRequest request3 = new StringRequest(Request.Method.GET, url3,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String result) {
-                        Logger.show(TAG, result);
-                        try {
-                            JSONObject obj = new JSONObject(result);
-                            JSONArray inboundNo_array = obj.getJSONArray("inbound_no");
-                            inbound_batch_nos = new String[inboundNo_array.length()];
-                            for(int i = 0; i < inboundNo_array.length(); i++) {//遍历JSONArray
-                                String inbound_no = (String)inboundNo_array.get(i);
-                                inbound_batch_nos[i] = inbound_no;
-                                Logger.show(TAG, inbound_no);
-                            }
-                            pd.dismiss();
-                        }catch (JSONException e) {
-                            ToastUtils.showToast(MainActivity.this, "Obtain Inbound Batch No. Failed!", Toast.LENGTH_SHORT);
-                            e.printStackTrace();
-                        }
-                        ToastUtils.showToast(MainActivity.this, result, Toast.LENGTH_LONG);
-                    }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                ToastUtils.showToast(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG);
-                pd.dismiss();
-            }
-        });
-        queue.add(request3);
         queue.start();
 
         initView();
@@ -212,7 +212,7 @@ public class MainActivity extends Activity implements UserItemAdapter.Callback{
         //super.onBackPressed();
         //MyApplication.getInstance().exit();
         new AlertDialog.Builder(this).setTitle("确认退出吗？")
-                //.setIcon(android.R.drawable.ic_dialog_info)
+            //.setIcon(android.R.drawable.ic_dialog_info)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -220,13 +220,13 @@ public class MainActivity extends Activity implements UserItemAdapter.Callback{
                         MainActivity.super.onBackPressed();
                         MyApplication.getInstance().exit();
                     }
-                })
+            })
                 .setNegativeButton("返回", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // 点击“返回”后的操作,这里不设置没有任何操作
                     }
-                }).show();
+            }).show();
     }
 
     @Override
