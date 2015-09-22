@@ -8,8 +8,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -20,35 +24,49 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.quaie.wms.Config;
 import com.quaie.wms.R;
+import com.quaie.wms.adapter.UserItemAdapter;
 import com.quaie.wms.application.MyApplication;
+import com.quaie.wms.entity.UserItem;
 import com.quaie.wms.utils.Logger;
 import com.quaie.wms.utils.TitleBuilder;
 import com.quaie.wms.utils.ToastUtils;
+import com.quaie.wms.widget.WrapHeightListView;
 import com.zxing.activity.CaptureActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 
-public class MainActivity extends Activity{
+public class MainActivity extends Activity implements UserItemAdapter.Callback{
     protected String TAG;
     private String[] mer_name;
     private String[] mer_id;
     private String[] inbound_nos;
     private String[] inbound_batch_nos;
-    private Button btnInbound;
-    private Button btnMound;
-    private Button btnPickup;
-    private Button btnOutbound;
+
+    //private ImageView iv_avatar;
+    private TextView tv_subhead;
+    private TextView tv_caption;
+
+    //private TextView tv_status_count;
+    //private TextView tv_follow_count;
+    //private TextView tv_fans_count;
+
+    private WrapHeightListView lv_user_items;
+    private View view;
+
+    private UserItemAdapter adapter;
+    private List<UserItem> userItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new TitleBuilder(MainActivity.this).setTitleText("WMS");
         final ProgressDialog pd = ProgressDialog.show(MainActivity.this, "Connecting", "Connecting to server,please wait");
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         String url1 = "http://www.24upost.com:5001/wms/android/merchants?token=" + Config.getCachedToken(this);
@@ -152,45 +170,41 @@ public class MainActivity extends Activity{
         });
         queue.add(request3);
         queue.start();
-        btnInbound = (Button)findViewById(R.id.btnInbound);
-        btnInbound.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, InboundActivity.class);
-                intent.putExtra("mer_name", mer_name);
-                intent.putExtra("mer_id", mer_id);
-                intent.putExtra("inbound_nos", inbound_nos);
-                startActivity(intent);
-            }
-        });
-        btnMound = (Button)findViewById(R.id.btnMount);
-        btnMound.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MountActivity.class);
-                intent.putExtra("inbound_batch_nos", inbound_batch_nos);
-                startActivity(intent);
-            }
-        });
 
-        btnPickup = (Button)findViewById(R.id.btnPickup);
-        btnPickup.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, PickupActivity.class);
-                startActivity(intent);
-            }
-        });
+        initView();
+        setItem();
+    }
 
-        btnOutbound = (Button)findViewById(R.id.btnOutbound);
-        btnOutbound.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, OutboundActivity.class);
-                startActivity(intent);
-            }
-        });
+    private void initView() {
+        // 标题栏
+        new TitleBuilder(MainActivity.this).setTitleText("WMS");
+        // 用户信息
+        //ll_userinfo = (LinearLayout) findViewById(R.id.ll_userinfo);
 
+        //iv_avatar = (ImageView) findViewById(R.id.iv_avatar);
+        tv_subhead = (TextView) findViewById(R.id.tv_subhead);
+        tv_caption = (TextView) findViewById(R.id.tv_caption);
+        tv_subhead.setText("fuyuan1");
+        tv_caption.setText("admin");
+        // 信息栏
+        //tv_status_count = (TextView) findViewById(R.id.tv_status_count);
+        //tv_follow_count = (TextView) findViewById(R.id.tv_follow_count);
+        //tv_fans_count = (TextView) findViewById(R.id.tv_fans_count);
+        // 列表
+        lv_user_items = (WrapHeightListView) findViewById(R.id.lv_user_items);
+        userItems = new ArrayList<UserItem>();
+        adapter = new UserItemAdapter(MainActivity.this, userItems, this);
+        lv_user_items.setAdapter(adapter);
+    }
+
+    // 设置栏列表
+    private void setItem() {
+        userItems.add(new UserItem(false, R.mipmap.push_icon_app_small_3, "Inbound", ""));
+        userItems.add(new UserItem(false, R.mipmap.push_icon_app_small_3, "Mount", ""));
+        userItems.add(new UserItem(false, R.mipmap.push_icon_app_small_3, "Pickup", "(2)"));
+        userItems.add(new UserItem(false, R.mipmap.push_icon_app_small_3, "Pack", ""));
+
+        //adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -214,5 +228,35 @@ public class MainActivity extends Activity{
                     }
                 }).show();
     }
+
+    @Override
+    public void click(View v) {
+        switch ((Integer) v.getTag()) {
+            case 0:
+                Intent intent = new Intent(MainActivity.this, InboundActivity.class);
+                intent.putExtra("mer_name", mer_name);
+                intent.putExtra("mer_id", mer_id);
+                intent.putExtra("inbound_nos", inbound_nos);
+                startActivity(intent);
+                break;
+            case 1:
+                Intent intent1 = new Intent(MainActivity.this, MountActivity.class);
+                intent1.putExtra("inbound_batch_nos", inbound_batch_nos);
+                startActivity(intent1);
+                break;
+            case 2:
+                Intent intent2 = new Intent(MainActivity.this, PickupActivity.class);
+                startActivity(intent2);
+                break;
+            case 3:
+                Intent intent3 = new Intent(MainActivity.this, OutboundActivity.class);
+                startActivity(intent3);
+                break;
+            default:
+                break;
+
+        }
+    }
+
 
 }

@@ -8,5 +8,12 @@
     <color name="bg_agray">#49dddddd</color>
     <color name="txt_alizarin">#e74d3d</color>
     <color name="txt_gray">#404040</color>
+    <color name="bg_gray_pressed">#e8e8e8</color>
+    <color name="white">#ffffff</color>
+    <color name="txt_black">#232323</color>
+    <color name="txt_light_gray">#898989</color>
+    <color name="divider_gray">#d7d7d7</color>
+    <color name="bg_gray">#f2f2f2</color>
+    <color name="transparent">#00000000</color>
 
 </resources>

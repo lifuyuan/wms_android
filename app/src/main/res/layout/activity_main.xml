@@ -1,34 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/bg_gray"
+              android:orientation="vertical" >
+
+<include layout="@layout/include_titlebar" />
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:paddingTop="4dp" >
+
+        <LinearLayout
+            android:id="@+id/ll_userinfo"
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
+            android:background="@drawable/bg_white2gray_sel"
+            android:orientation="horizontal"
+            android:padding="16dp" >
+
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center_vertical"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_launcher" />
+
+            <RelativeLayout
+                android:id="@+id/rl_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                tools:context=".MainActivity">
+                android:paddingLeft="8dp"
+                android:paddingTop="8dp" >
 
-    <include layout="@layout/include_titlebar"/>
+                <TextView
+                    android:id="@+id/tv_subhead"
+                    style="@style/TextViewSubhead"
+                    android:text="fuyuan" />
 
-    <Button
-        android:id="@+id/btnInbound"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/commodity_inbound"/>
+                <TextView
+                    android:id="@+id/tv_caption"
+                    style="@style/TextViewCaption"
+                    android:layout_below="@id/tv_subhead"
+                    android:layout_marginTop="8dp"
+                    android:text="admin"
+                    android:textColor="@color/txt_gray" />
 
-    <Button
-        android:id="@+id/btnMount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/commodity_mount"/>
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/rightarrow" />
+            </RelativeLayout>
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/btnPickup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/commodity_pickup"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_gray" />
 
-    <Button
-        android:id="@+id/btnOutbound"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/commodity_outbound"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_gray" />
+
+        <com.quaie.wms.widget.WrapHeightListView
+            android:id="@+id/lv_user_items"
+            style="@style/ListViewCommon"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" >
+        </com.quaie.wms.widget.WrapHeightListView>
+    </LinearLayout>
+</ScrollView>
 
 </LinearLayout>
