@@ -18,7 +18,7 @@
     <string name="scanShelf">Scan Shelf Barcode:</string>
     <string name="scanBarcode">Scan Commodity Barcode:</string>
     <string name="scan_result_shelf">Your Shelf is: </string>
-    <string name="scan_result_barcode">Scaned Commodity Number:</string>
+    <string name="scan_result_barcode">Scaned Commodity:</string>
     <string name="commodity_mount">Commodity Mound</string>
     <string name="mount_submit">Submit To Server</string>
     <string name="scanWave">Scan Wave/Order No.</string>
@@ -28,4 +28,6 @@
     <string name="scan_result_order">Scanned Order No.</string>
     <string name="commodity_outbound">Order Pack</string>
     <string name="to_scan">Please Scan Commodity</string>
+    <string name="to_scan_shelf">Please Scan Shelf Barcode</string>
+    <string name="to_scan_shelf_commodity">Please Scan Commodity</string>
 </resources>

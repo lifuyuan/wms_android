@@ -42,26 +42,6 @@
         android:orientation="horizontal">
         <View android:layout_height="1dp" android:background="@color/bg_gray_dark" android:layout_width="fill_parent"></View>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal"
-        android:minHeight="45dp">
-        <Button
-            android:id="@+id/btnScanShelf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:textSize="12sp"
-            android:text="@string/scanShelf"
-            android:singleLine="false"
-            android:height="45dp"
-            android:width="320dp"/>
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -86,12 +66,19 @@
             android:maxWidth="80dp"
             android:gravity="center_vertical|left"
             />
-        <TextView
-            android:id="@+id/tv_scan_shelf"
-            android:layout_width="fill_parent"
-            android:textSize="18sp"
-            android:textColor="@android:color/black"
-            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/et_shelf"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:singleLine="true"
+            android:hint="@string/to_scan_shelf"
+            android:textColor="@color/bg_gray_dark"
+            android:textColorHint="@color/bg_gray_dark"
+            style="@style/my_edittext_style"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:inputType="text"/>
     </LinearLayout>
 
     <LinearLayout
@@ -100,30 +87,6 @@
         android:orientation="horizontal">
         <View android:layout_height="1dp" android:background="@color/bg_gray_dark" android:layout_width="fill_parent"></View>
     </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal"
-        android:minHeight="45dp">
-        <Button
-            android:id="@+id/btnScanBarcode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:textSize="12sp"
-            android:text="@string/scanBarcode"
-            android:singleLine="false"
-            android:height="45dp"
-            android:width="320dp"/>
-    </LinearLayout>
-
-
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -148,12 +111,19 @@
             android:maxWidth="80dp"
             android:gravity="center_vertical|left"
             />
-        <TextView
-            android:id="@+id/tv_scan_barcode"
-            android:layout_width="fill_parent"
-            android:textSize="18sp"
-            android:textColor="@android:color/black"
-            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/et_mount_barcode"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:singleLine="true"
+            android:hint="@string/to_scan_shelf_commodity"
+            android:textColor="@color/bg_gray_dark"
+            android:textColorHint="@color/bg_gray_dark"
+            style="@style/my_edittext_style"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:inputType="text"/>
     </LinearLayout>
 
 
@@ -162,28 +132,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <View android:layout_height="1dp" android:background="@color/bg_gray_dark" android:layout_width="fill_parent"></View>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal"
-        android:minHeight="45dp">
-        <Button
-            android:id="@+id/btnSubmit1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:textSize="12sp"
-            android:text="@string/mount_submit"
-            android:singleLine="false"
-            android:height="45dp"
-            android:width="320dp"/>
     </LinearLayout>
 
 </LinearLayout>

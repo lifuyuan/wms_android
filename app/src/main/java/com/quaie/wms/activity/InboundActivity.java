@@ -150,7 +150,7 @@ public class InboundActivity   extends Activity {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 final String result = etBarcode.getText().toString();
                 if(!TextUtils.isEmpty(result)) {
-                    if(etBarcode.getText().toString().length()>3){
+                    if(result.length()>3){
                         Logger.show(TAG, result);
                         final ProgressDialog pd = ProgressDialog.show(InboundActivity.this, "Connecting", "Connecting to server,please wait");
                         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());

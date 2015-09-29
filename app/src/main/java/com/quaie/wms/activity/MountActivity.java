@@ -5,10 +5,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,24 +43,19 @@ import java.util.Map;
 public class MountActivity extends Activity {
     protected String TAG;
     private Spinner s1;
-    private TextView barcodeResultTextView;
-    private TextView shelfResultTextView;
     private String[] inbound_batch_nos;
     private String selected_ibn;
-    private Button btnScanShelf;
-    private Button btnScanBarcode;
-    private Button btnSubmit;
     private HashMap<String, Object> result;
     private int commodity_amount = 0;
     private JSONArray result_array_barcode;
     private String result_array_shelf;
+    private EditText etShelf;
+    private EditText etBarcode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mount);
         new TitleBuilder(MountActivity.this).setTitleText("Mount");
-        shelfResultTextView = (TextView) this.findViewById(R.id.tv_scan_shelf);
-        barcodeResultTextView = (TextView) this.findViewById(R.id.tv_scan_barcode);
         Intent i = getIntent();
         inbound_batch_nos = (String[])i.getCharSequenceArrayExtra("inbound_batch_nos");
         s1 = (Spinner)findViewById(R.id.spinner1);
@@ -68,7 +65,6 @@ public class MountActivity extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selected_ibn = inbound_batch_nos[position];
-                ToastUtils.showToast(MountActivity.this, selected_ibn, Toast.LENGTH_SHORT);
             }
 
             @Override
@@ -77,7 +73,53 @@ public class MountActivity extends Activity {
             }
         });
 
+        etShelf = (EditText)findViewById(R.id.et_shelf);
+        etBarcode = (EditText)findViewById(R.id.et_mount_barcode);
+        etBarcode.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                final String barcode = etBarcode.getText().toString();
+                final String shelf = etShelf.getText().toString();
+                if(!TextUtils.isEmpty(barcode)) {
+                    if(barcode.length()>3){
+                        final ProgressDialog pd = ProgressDialog.show(MountActivity.this, "Connecting", "Connecting to server,please wait");
+                        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+                        String url = "http://www.24upost.com:5001/wms/android/mount";
+                        StringRequest request = new StringRequest(Request.Method.POST, url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String result) {
+                                        pd.dismiss();
+                                        ToastUtils.showToast(MountActivity.this, "Successful", Toast.LENGTH_SHORT);
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                pd.dismiss();
+                                ToastUtils.showToast(MountActivity.this, "Error"+error.networkResponse.statusCode, Toast.LENGTH_SHORT);
+                            }
+                        }){
+                            @Override
+                            protected Map<String, String> getParams() throws AuthFailureError {
+                                HashMap<String, String> map = new HashMap<String, String>();
+                                map.put("token", Config.getCachedToken(MountActivity.this));
+                                map.put("inboundBatchNo", selected_ibn);
+                                map.put("shelfNum", shelf);
+                                map.put("commodityBarcode", barcode);
+                                return map;
+                            }
+                        };
+                        request.setTag("wmsPost");
+                        queue.add(request);
+                        queue.start();
+                    }
+                    etBarcode.setText(null);
+                }
+                return false;
+            }
+        });
 
+        /*
         btnScanShelf = (Button)findViewById(R.id.btnScanShelf);
         btnScanShelf.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,44 +180,6 @@ public class MountActivity extends Activity {
                 queue.start();
             }
         });
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            SerializableMap resultmap = (SerializableMap)data.getExtras().getSerializable("result");
-            String scanType = data.getStringExtra("scanType");
-            result = (HashMap<String, Object>)resultmap.getMap();
-            Iterator iter = result.entrySet().iterator();
-            if (scanType.equals("mount_commodity")) {
-                result_array_barcode = new JSONArray();
-                while (iter.hasNext()) {
-                    Map.Entry entry = (Map.Entry) iter.next();
-                    String key = (String) entry.getKey();
-                    Integer value = (Integer) entry.getValue();
-                    commodity_amount = commodity_amount + value;
-
-                    JSONObject jsonmap1 = new JSONObject();
-                    try {
-                        jsonmap1.put("commodityBarcode", key);
-                        jsonmap1.put("quantity", value);
-                        result_array_barcode.put(jsonmap1);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-                barcodeResultTextView.setText(result_array_barcode.toString());
-            }
-            else if (scanType.equals("mount_shelf")) {
-                while (iter.hasNext()) {
-                    Map.Entry entry = (Map.Entry) iter.next();
-                    result_array_shelf = (String) entry.getKey();
-                }
-                shelfResultTextView.setText(result_array_shelf);
-            }
-        }
+        */
     }
 }
