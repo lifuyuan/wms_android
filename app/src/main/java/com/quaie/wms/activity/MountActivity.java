@@ -46,9 +46,6 @@ public class MountActivity extends Activity {
     private String[] inbound_batch_nos;
     private String selected_ibn;
     private HashMap<String, Object> result;
-    private int commodity_amount = 0;
-    private JSONArray result_array_barcode;
-    private String result_array_shelf;
     private EditText etShelf;
     private EditText etBarcode;
     @Override
@@ -119,67 +116,5 @@ public class MountActivity extends Activity {
             }
         });
 
-        /*
-        btnScanShelf = (Button)findViewById(R.id.btnScanShelf);
-        btnScanShelf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MountActivity.this, CaptureActivity.class);
-                intent.putExtra("isContinue", "no");
-                intent.putExtra("scanType", "mount_shelf");
-                startActivityForResult(intent, 0);
-            }
-        });
-
-        btnScanBarcode = (Button)findViewById(R.id.btnScanBarcode);
-        btnScanBarcode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MountActivity.this, CaptureActivity.class);
-                intent.putExtra("isContinue", "yes");
-                intent.putExtra("scanType", "mount_commodity");
-                startActivityForResult(intent, 0);
-            }
-        });
-
-
-        btnSubmit = (Button)findViewById(R.id.btnSubmit1);
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final ProgressDialog pd = ProgressDialog.show(MountActivity.this, "Connecting", "Connecting to server,please wait");
-                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url = "http://www.24upost.com:5001/wms/android/mount";
-                StringRequest request = new StringRequest(Request.Method.POST, url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String result) {
-                                pd.dismiss();
-                                ToastUtils.showToast(MountActivity.this, "Successful", Toast.LENGTH_SHORT);
-                                MountActivity.this.finish();
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        pd.dismiss();
-                        ToastUtils.showToast(MountActivity.this, "Error", Toast.LENGTH_SHORT);
-                    }
-                }){
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        HashMap<String, String> map = new HashMap<String, String>();
-                        map.put("token", Config.getCachedToken(MountActivity.this));
-                        map.put("inboundBatchNo", selected_ibn);
-                        map.put("shelfNum", result_array_shelf);
-                        map.put("mountedBarcode", result_array_barcode.toString());
-                        return map;
-                    }
-                };
-                request.setTag("wmsPost");
-                queue.add(request);
-                queue.start();
-            }
-        });
-        */
     }
 }

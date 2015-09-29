@@ -55,11 +55,6 @@ public class InboundActivity   extends Activity {
     private String[] inbound_nos;
     private String select_mer;
     private String inbound_no;
-    private HashMap<String, Object> result;
-    private int commodity_amount = 0;
-    private JSONArray result_array;
-    private TextView resultTextView;
-    private Button btnSubmit;
     private EditText etBarcode;
 
     @Override
@@ -67,7 +62,6 @@ public class InboundActivity   extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inbound);
         new TitleBuilder(InboundActivity.this).setTitleText("Inbound");
-        resultTextView = (TextView) this.findViewById(R.id.tv_scan_result);
         Intent i = getIntent();
         mer_name = (String[])i.getCharSequenceArrayExtra("mer_name");
         mer_id = (String[])i.getCharSequenceArrayExtra("mer_id");
@@ -103,47 +97,6 @@ public class InboundActivity   extends Activity {
             }
         });
 
-        /*
-        btnSubmit = (Button)findViewById(R.id.btnSubmit);
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final ProgressDialog pd = ProgressDialog.show(InboundActivity.this, "Connecting", "Connecting to server,please wait");
-                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url = "http://www.24upost.com:5001/wms/android/inbound";
-                StringRequest request = new StringRequest(Request.Method.POST, url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String result) {
-                                pd.dismiss();
-                                ToastUtils.showToast(InboundActivity.this, "Successful", Toast.LENGTH_SHORT);
-                                InboundActivity.this.finish();
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        pd.dismiss();
-                        ToastUtils.showToast(InboundActivity.this, "Error", Toast.LENGTH_SHORT);
-                    }
-                }){
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        HashMap<String, String> map = new HashMap<String, String>();
-                        map.put("token", Config.getCachedToken(InboundActivity.this));
-                        map.put("merchantId", select_mer);
-                        if (!TextUtils.isEmpty(inbound_no)) {
-                            map.put("inboundNo", inbound_no);
-                        }
-                        map.put("inboundBarcode", result_array.toString());
-                        return map;
-                    }
-                };
-                request.setTag("wmsPost");
-                queue.add(request);
-                queue.start();
-            }
-        });
-        */
         etBarcode = (EditText)findViewById(R.id.et_scan_result);
         etBarcode.setOnKeyListener(new View.OnKeyListener() {
             @Override
