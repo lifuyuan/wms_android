@@ -30,4 +30,5 @@
     <string name="to_scan">Please Scan Commodity</string>
     <string name="to_scan_shelf">Please Scan Shelf Barcode</string>
     <string name="to_scan_shelf_commodity">Please Scan Commodity</string>
+    <string name="to_scan_wave">Please Scan Wave No./Order No.</string>
 </resources>
