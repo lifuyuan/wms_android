@@ -117,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_marginLeft="10dp"
             android:singleLine="true"
-            android:hint="@string/to_scan_shelf_commodity"
+            android:hint="@string/to_scan_shelf"
             android:textColor="@color/bg_gray_dark"
             android:textColorHint="@color/bg_gray_dark"
             style="@style/my_edittext_style"
